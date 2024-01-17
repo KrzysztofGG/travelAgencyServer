@@ -33,6 +33,7 @@ const updateTrip = async (req, res) => {
         params: { id: tripId },
     } = req
 
+
     if (!name || !country || !dateStart || !dateEnd || !price || !maxPlaces || !availablePlaces || !description || !imageSources || !ratings || !reviews) {
         // throw new BadRequestError('All fields are required');
         res.status(StatusCodes.BAD_REQUEST).send({ message: 'All fields are required'});
@@ -44,6 +45,7 @@ const updateTrip = async (req, res) => {
         req.body,
         {new: true, runValidators: true}
     )
+
     if (!trip) {
         // throw new NotFoundError(`No trip with id ${tripId}`);
         res.status(StatusCodes.NOT_FOUND).send({ message: `No trip with id ${tripId}`})
@@ -62,7 +64,6 @@ const deleteTrip = async (req, res) => {
     })
 
     if (!trip) {
-        // throw new NotFoundError(`No trip with id ${tripId}`)
         res.status(StatusCodes.NOT_FOUND).send({ message: `No trip with id ${_id}`})
         return;
     }

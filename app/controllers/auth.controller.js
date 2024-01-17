@@ -10,6 +10,8 @@ exports.signup = (req, res) => {
     username: req.body.username,
     email: req.body.email,
     password: bcrypt.hashSync(req.body.password, 8),
+    isBanned: false,
+    purchaseHistory: []
   });
 
   user.save((err, user) => {
@@ -94,16 +96,18 @@ exports.signin = (req, res) => {
 
       let refreshToken = await RefreshToken.createToken(user);
 
-      let authorities = [];
+      // let authorities = [];
 
-      for (let i = 0; i < user.roles.length; i++) {
-        authorities.push("ROLE_" + user.roles[i].name.toUpperCase());
-      }
+      // for (let i = 0; i < user.roles.length; i++) {
+      //   authorities.push("ROLE_" + user.roles[i].name.toUpperCase());
+      // }
       res.status(200).send({
-        id: user._id,
+        _id: user._id,
         username: user.username,
         email: user.email,
-        roles: authorities,
+        isBanned: user.isBanned,
+        roles: user.roles.map(role => role.name),
+        purchaseHistory: user.purchaseHistory,
         accessToken: token,
         refreshToken: refreshToken,
       });

@@ -10,11 +10,18 @@ module.exports = function(app) {
       next();
     });
     
-    app.get("/api/trips", [authJwt.verifyToken], controller.getAllTrips);
+    // app.get("/api/trips", [authJwt.verifyToken], controller.getAllTrips);
+    app.get("/api/trips",  controller.getAllTrips);
 
-    app.post("/api/trips", controller.createTrip);
+    app.post("/api/trips", 
+    [authJwt.verifyToken, authJwt.isModOrAdmin],
+    controller.createTrip);
 
-    app.delete("/app/trips/:id", controller.deleteTrip);
+    app.delete("/app/trips/:id", 
+    [authJwt.verifyToken, authJwt.isModOrAdmin],
+    controller.deleteTrip);
 
-    app.put("/api/trips/:id", controller.updateTrip);
+    app.put("/api/trips/:id",  
+    [authJwt.verifyToken],
+     controller.updateTrip);
   };

@@ -22,15 +22,6 @@ app.use(express.urlencoded({ extended: true }));
 const db = require("./app/models");
 const Role = db.role;
 
-// const connectDB = (url) => {
-//   return mongoose.connect(url, {
-//     useNewUrlParser: true,
-//     useCreateIndex: true,
-//     useFindAndModify: false,
-//     useUnifiedTopology: true,
-//     dbName: "TravelDb"
-//   })
-// }
 
 db.mongoose
   .connect(process.env.MONGO_URI, {
@@ -52,6 +43,8 @@ db.mongoose
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to trips api" });
 });
+
+
 
 // routes
 require("./app/routes/auth.routes")(app);
